@@ -1,0 +1,77 @@
+# yoface — Cokret 共享前端组件库
+#
+# 所有 Cokret 的 Dioxus 前端(yougen、sodmin 等)统一依赖本 crate。
+# yoface 透传官方 dioxus-primitives / dioxus-icons,并收纳一组以
+# `#[css_module]` 封装的自定义控件;所有颜色走 `tokens.css` 的设计令牌,
+# 主题留给下游覆盖。
+#
+# ⚠️ patch 段不被下游继承(Cargo 规则:`[patch]` 仅对 workspace 根生效)。
+# 下游每个前端的 Cargo.toml 必须照抄本文件 `[patch.crates-io]` +
+# `[patch."https://github.com/DioxusLabs/components"]` 两段,否则
+# `GenerationalBox<T>` 会因 dioxus-core 跨源(registry vs git fork)而 mismatch。
+# 两个 fork rev 是单一真相源,升级时手工 bump,见 README.md。
+[package]
+name = "yoface"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.96"
+description = "Cokret shared Dioxus frontend component library"
+license = "Apache-2.0"
+repository = "https://github.com/cokret/yoface"
+
+[dependencies]
+# 透传官方原语 + 图标。default-features = false 与 yougen 对齐,
+# 避免拉入 desktop/web 双 backend 冲突;下游按 target 自行启用 dioxus 的
+# desktop/web feature。
+dioxus = { workspace = true }
+dioxus-icons = { workspace = true, default-features = false }
+dioxus-primitives = { workspace = true, default-features = false }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+# Toaster 的自动消失定时器在 wasm 下走 setTimeout(gloo-timers);
+# `tokio::time` 在 wasm32-unknown-unknown 上会 panic。
+gloo-timers = { workspace = true, features = ["futures"] }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+# host(desktop / cargo check)下 Toaster 定时器走 tokio::time::sleep。
+tokio = { workspace = true, features = ["time", "rt"] }
+
+# ---------------------------------------------------------------------------
+# 以下 patch + workspace 段从 yougen/Cargo.toml 照搬。yoface 作为独立 git
+# 仓的 workspace 根,需要自带这些定义才能编译;下游各前端也必须复制 patch 段。
+# rev 钉死,升级时手工 bump(见 README.md「单一真相源」)。
+# ---------------------------------------------------------------------------
+
+# cokret fork of DioxusLabs/components,在 cargo 已解析的同一 revision 上分支。
+# 唯一 delta 是 `primitives/src/js/focus-trap.js` 的幂等守卫:DialogRoot 每个
+# Dialog 实例注入该脚本,dioxus 跨 mount 重复执行时顶层 `class FocusTrap`
+# 重声明抛 SyntaxError,腐蚀 focus-trap eval 闭包并导致 wasm 堆损坏。
+[patch."https://github.com/DioxusLabs/components"]
+dioxus-primitives = { git = "https://github.com/cokret/dioxus-components", rev = "3510aeee2d14f0ca2c11682c9b826650cb557d2f" }
+
+# cokret fork of DioxusLabs/dioxus,在 v0.7.9 tag 上分支。唯一 delta 是
+# `Callback::__point_to`:upstream 0.7.9 对 `point_to` 调 `.unwrap()`,当
+# `Option<EventHandler>` prop 的 owner scope 在同一帧被回收时整个 wasm 实例
+# abort(白屏)。fork 把该 unwrap 降级为 trace-log no-op。
+#
+# 下面四个 wasm-shared 生命周期 crate 必须与 `dioxus-core` 同源:git
+# `dioxus-core` 会经 workspace deps 拉入 git `generational-box` / `subsecond`,
+# 若 registry 副本仍在,同一 crate 会存在于两个 source 下,`GenerationalBox<T>`
+# 在 registry `dioxus-signals`/`dioxus-web` 与 patched core 之间 mismatch。
+# 见 https://github.com/cokret/dioxus/commit/e59f9f24a5c27c9303cd61edd0452b44161374ab
+[patch.crates-io]
+dioxus-core       = { git = "https://github.com/cokret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+dioxus-core-types = { git = "https://github.com/cokret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+generational-box  = { git = "https://github.com/cokret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+subsecond         = { git = "https://github.com/cokret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+subsecond-types   = { git = "https://github.com/cokret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+
+[workspace]
+resolver = "3"
+
+[workspace.dependencies]
+dioxus = "0.7.9"
+dioxus-icons = { version = "0.1.0", default-features = false }
+dioxus-primitives = { version = "0.0.1", git = "https://github.com/DioxusLabs/components", default-features = false }
+gloo-timers = "0.4"
+tokio = "1.52.3"

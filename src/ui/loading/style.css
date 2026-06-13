@@ -1,0 +1,66 @@
+.dx-skeleton {
+  background-color: var(--muted);
+  border-radius: var(--radius-sm);
+  animation: dx-skeleton-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes dx-skeleton-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.dx-skeleton-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dx-skeleton-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.dx-skeleton-title { height: 2rem; width: 12rem; }
+.dx-skeleton-line-full { height: 1rem; width: 100%; }
+.dx-skeleton-line-lg { height: 1rem; width: 75%; }
+.dx-skeleton-line-md { height: 1rem; width: 50%; }
+.dx-skeleton-line-sm { height: 1rem; width: 6rem; margin-bottom: 0.5rem; }
+.dx-skeleton-stat { height: 2rem; width: 4rem; }
+
+.dx-skeleton-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .dx-skeleton-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1024px) {
+  .dx-skeleton-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+.dx-skeleton-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background-color: var(--card);
+  box-shadow: var(--shadow-sm);
+}
+
+.dx-spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  animation: dx-spinner-spin 1s linear infinite;
+}
+
+.dx-spinner-track { opacity: 0.25; }
+.dx-spinner-head { opacity: 0.75; }
+
+@keyframes dx-spinner-spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,20 @@
+.dx-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.dx-info-row-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+.dx-info-row-value {
+  max-width: 60%;
+  font-size: 0.875rem;
+  text-align: right;
+  word-break: break-all;
+  color: var(--foreground);
+}

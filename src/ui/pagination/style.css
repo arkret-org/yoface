@@ -1,0 +1,17 @@
+.dx-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0.5rem;
+}
+
+.dx-pagination-info {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.dx-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}

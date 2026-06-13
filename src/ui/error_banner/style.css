@@ -1,0 +1,57 @@
+.dx-error-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: var(--radius);
+  background-color: color-mix(in srgb, var(--destructive) 10%, transparent);
+}
+
+.dx-error-banner-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.dx-error-banner-message {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--destructive);
+}
+
+.dx-error-banner-retry {
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.dx-error-banner-retry:hover {
+  text-decoration: underline;
+}
+
+.dx-error-banner-detail {
+  margin: 0;
+  font-size: 0.75rem;
+  color: color-mix(in srgb, var(--destructive) 80%, transparent);
+}
+
+.dx-error-banner-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.dx-error-banner-chip {
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--destructive) 10%, transparent);
+  font-family: var(--font-mono, ui-monospace, monospace);
+}
