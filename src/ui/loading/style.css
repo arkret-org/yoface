@@ -45,11 +45,18 @@
 .dx-skeleton-card {
   display: flex;
   flex-direction: column;
+  gap: 0.75rem;
   padding: 1.5rem;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background-color: var(--card);
   box-shadow: var(--shadow-sm);
+}
+
+.dx-page-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .dx-spinner {

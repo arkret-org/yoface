@@ -24,6 +24,7 @@ pub mod empty_state;
 pub mod error_banner;
 pub mod info_row;
 pub mod loading;
+pub mod modal;
 pub mod page_header;
 pub mod pagination;
 pub mod table;

@@ -53,8 +53,16 @@ pub fn Pagination(
     #[props(default = "Previous".to_string())] prev_label: String,
     #[props(default = "Next".to_string())] next_label: String,
 ) -> Element {
-    let total_pages = if total == 0 { 1 } else { total.div_ceil(per_page) };
-    let from = if total == 0 { 0 } else { (page - 1) * per_page + 1 };
+    let total_pages = if total == 0 {
+        1
+    } else {
+        total.div_ceil(per_page)
+    };
+    let from = if total == 0 {
+        0
+    } else {
+        (page - 1) * per_page + 1
+    };
     let to = std::cmp::min(page * per_page, total);
 
     rsx! {

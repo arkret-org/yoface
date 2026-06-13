@@ -36,3 +36,26 @@
   color: var(--secondary-color-1);
   outline: none;
 }
+
+/* SearchInput:相对定位容器 + 左侧图标 + 留白的 input。 */
+.dx-search {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.dx-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 0.625rem;
+  display: flex;
+  align-items: center;
+  transform: translateY(-50%);
+  color: var(--secondary-color-5);
+  pointer-events: none;
+}
+
+.dx-search-input {
+  width: 100%;
+  padding-left: 2rem;
+}

@@ -1,4 +1,5 @@
 use dioxus::prelude::*;
+use dioxus_icons::lucide::Search;
 #[css_module("/src/ui/input/style.css")]
 struct Styles;
 
@@ -52,6 +53,49 @@ pub fn Input(
             onpaste: move |e| _ = onpaste.map(|callback| callback(e)),
             ..attributes,
             {children}
+        }
+    }
+}
+
+/// 带搜索图标的搜索输入框。图标用 `dioxus_icons::lucide::Search`,定位在
+/// 输入框左侧,文本左内边距留出图标空间。`value` 受控,`oninput` 上抛
+/// 输入事件。`placeholder` / `aria_label` 可选。
+#[component]
+pub fn SearchInput(
+    #[props(default)] placeholder: String,
+    #[props(default = "Search".to_string())] aria_label: String,
+    #[props(default)] value: String,
+    #[props(default)] class: String,
+    oninput: EventHandler<FormEvent>,
+) -> Element {
+    let label = if aria_label.is_empty() {
+        "Search".to_string()
+    } else {
+        aria_label
+    };
+    let ph = if placeholder.is_empty() {
+        "Search...".to_string()
+    } else {
+        placeholder
+    };
+    let wrapper_class = if class.is_empty() {
+        Styles::dx_search.to_string()
+    } else {
+        format!("{} {}", Styles::dx_search, class)
+    };
+    rsx! {
+        div { class: wrapper_class,
+            span { class: Styles::dx_search_icon,
+                Search { size: "1rem" }
+            }
+            input {
+                r#type: "search",
+                class: format!("{} {}", Styles::dx_input, Styles::dx_search_input),
+                placeholder: ph,
+                value,
+                "aria-label": label,
+                oninput: move |evt| oninput.call(evt),
+            }
         }
     }
 }

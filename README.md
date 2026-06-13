@@ -83,10 +83,10 @@ dioxus-primitives 之上的 Cokret `#[css_module]` 封装(自 yougen `src/ui` �
 | `ui::badge` | `Badge` / `BadgeVariant` / `VerifiedIcon` |
 | `ui::button` | `Button` / `ButtonVariant` / `ButtonSize` |
 | `ui::card` | `Card` / `CardHeader` / `CardTitle` / `CardDescription` / `CardAction` / `CardContent` / `CardFooter` |
-| `ui::checkbox` | `Checkbox` |
+| `ui::checkbox` | `Checkbox` / `TristateCheckbox` / `header_state` |
 | `ui::dialog` | `Dialog` / `DialogTitle` / `DialogDescription` |
-| `ui::input` | `Input` |
-| `ui::label` | `Label` |
+| `ui::input` | `Input` / `SearchInput` |
+| `ui::label` | `Label` / `LabelFor` |
 | `ui::select` | `Select` / `SelectMulti` / `SelectOption` / `SelectGroup` / `SelectGroupLabel` |
 | `ui::separator` | `Separator` |
 | `ui::slider` | `Slider` / `RangeSlider` |
@@ -101,7 +101,8 @@ dioxus-primitives 之上的 Cokret `#[css_module]` 封装(自 yougen `src/ui` �
 | `ui::table` | `Table` / `TableHeader` / `TableBody` / `TableRow` / `TableHead` / `TableCell` / `EmptyRow` |
 | `ui::pagination` | `Pagination` / `CursorPagination` |
 | `ui::toast` | `Toaster` / `show_toast` / `show_toast_with_action` / `Toast` / `ToastVariant` / `ToastAction` |
-| `ui::loading` | `LoadingSkeleton` / `StatsSkeleton` / `Spinner` |
+| `ui::loading` | `LoadingSkeleton` / `StatsSkeleton` / `PageSkeleton` / `Spinner` |
+| `ui::modal` | `Modal` / `ModalOverlay` / `ConfirmDialog` / `DialogActions` |
 | `ui::page_header` | `PageHeader` / `Breadcrumbs` / `BreadcrumbItem` |
 | `ui::info_row` | `InfoRow` |
 | `ui::error_banner` | `ErrorBanner` |
@@ -154,6 +155,101 @@ fn App() -> Element {
     }
 }
 ```
+
+### 3.4 ergonomic 后台控件(`open: bool` + 回调 / 三态选择 / 搜索框)
+
+下面这批是在 dioxus-primitives 之上的「布尔状态 + 回调」简洁封装,面向后台
+列表/详情页的高频调用形态;与既有信号驱动的 `ui::dialog::Dialog`、
+`ui::checkbox::Checkbox` 并存,不替换它们。
+
+```rust
+use dioxus::prelude::*;
+use yoface::ui::modal::{Modal, ConfirmDialog, DialogActions};
+use yoface::ui::button::ButtonVariant;
+use yoface::ui::checkbox::{TristateCheckbox, header_state};
+use yoface::ui::input::SearchInput;
+use yoface::ui::label::LabelFor;
+use yoface::ui::loading::PageSkeleton;
+
+fn Demo() -> Element {
+    let mut open = use_signal(|| false);
+    let mut confirm = use_signal(|| false);
+    let mut query = use_signal(String::new);
+
+    // 表头「全选」三态:已选 2 行 / 本页共 5 行 → (checked, indeterminate)
+    let (all_checked, all_indeterminate) = header_state(2, 5);
+
+    rsx! {
+        // 整页加载骨架
+        PageSkeleton { card_count: 4 }
+
+        // 带搜索图标的搜索框(图标取 lucide::Search)
+        SearchInput {
+            placeholder: "搜索…".to_string(),
+            value: query(),
+            oninput: move |e: FormEvent| query.set(e.value()),
+        }
+
+        LabelFor { r#for: "field-1", class: "mb-1", "字段标题" }
+
+        // 表头三态全选 checkbox
+        TristateCheckbox {
+            checked: all_checked,
+            indeterminate: all_indeterminate,
+            aria_label: "全选当前页".to_string(),
+            onchange: move |_checked: bool| { /* 父组件决定全选/全不选语义 */ },
+        }
+
+        // 编辑弹窗:open:bool + on_close,标题 + 表单 + 操作行
+        Modal {
+            open: open(),
+            title: "编辑条目".to_string(),
+            on_close: move |_| open.set(false),
+            // …表单字段…
+            DialogActions {
+                confirm_label: "保存".to_string(),
+                cancel_label: "取消".to_string(),
+                on_confirm: move |_| open.set(false),
+                on_cancel: move |_| open.set(false),
+            }
+        }
+
+        // 销毁确认:variant 传 Destructive 渲染红色确认按钮
+        ConfirmDialog {
+            open: confirm(),
+            title: "删除该条目?".to_string(),
+            message: "此操作不可撤销。".to_string(),
+            confirm_label: "删除".to_string(),
+            variant: ButtonVariant::Destructive,
+            on_confirm: move |_| confirm.set(false),
+            on_cancel: move |_| confirm.set(false),
+        }
+
+        // EmptyState 也支持「字符串图标名」便利构造(映射到内置 lucide 图标):
+        // EmptyState { icon_name: "users".to_string(), title, description }
+    }
+}
+```
+
+要点:
+
+- **Modal 家族**:`Modal`/`ConfirmDialog` 用 `open: bool` + `on_close`/`on_confirm`
+  /`on_cancel` 回调,内部桥接共享遮罩(点击遮罩 = 关闭/取消)。按钮复用
+  `ui::button::Button`。`ConfirmDialog`/`DialogActions` 的确认按钮样式由
+  `variant: ButtonVariant`(默认 `Primary`,销毁传 `Destructive`)决定;
+  `confirm_loading: bool` 在 mutation 进行中禁用确认。
+- **TristateCheckbox**:`Checkbox` 之外的三态变体,`indeterminate: bool` 渲染
+  「部分选中」横杠态(表头全选用)。`indeterminate` 经 `document::eval` 在渲染后
+  反射到 DOM property(HTML 属性表达不了),无新依赖、host 下安全 no-op。
+  `header_state(selected_on_page, page_size) -> (checked, indeterminate)` 纯函数
+  辅助推导表头态。
+- **SearchInput**:带左侧 `lucide::Search` 图标的搜索框,受控 `value` + `oninput`。
+- **LabelFor**:接受裸字符串 `r#for` + `class` 的 ergonomic Label(既有信号驱动
+  的 `Label` 保留不变)。
+- **EmptyState.icon_name**:可选 `Option<String>`,接受 lucide kebab-case 名字
+  (`bot`/`search`/`alert-triangle`/`git-branch`/`flag`/`globe`/`shield`/
+  `message-square`/`smartphone`/`plug`/`key`/`users`…,未识别回退 `Inbox`),
+  与既有 `icon: Option<Element>` 并存(`icon` 优先)。
 
 ---
 

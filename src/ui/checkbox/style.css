@@ -27,3 +27,67 @@
 .dx-checkbox:focus-visible {
     box-shadow: 0 0 0 2px var(--focused-border-color);
 }
+
+/* ---------------------------------------------------------------------------
+ * 三态原生 checkbox(TristateCheckbox)。
+ * dioxus-primitives checkbox 无法表达 indeterminate,这里用 appearance:none
+ * 的原生 input 自绘 check / 横杠两种指示符。颜色全部取设计令牌。
+ * ------------------------------------------------------------------------- */
+.dx-checkbox-native {
+    appearance: none;
+    -webkit-appearance: none;
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    box-sizing: border-box;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    margin: 0;
+    background-color: var(--primary-color-3);
+    box-shadow: inset 0 0 0 1px var(--primary-color-7);
+    color: var(--primary-color);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.dx-checkbox-native:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.dx-checkbox-native:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--focused-border-color);
+}
+
+/* 选中:实心底 + 对勾(SVG mask 用 currentColor 描边的折线)。 */
+.dx-checkbox-native:checked,
+.dx-checkbox-native:indeterminate {
+    background-color: var(--secondary-color-2);
+    box-shadow: none;
+}
+
+.dx-checkbox-native:checked::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--primary-color);
+    -webkit-mask: var(--dx-check-mask) center / 0.7rem 0.7rem no-repeat;
+    mask: var(--dx-check-mask) center / 0.7rem 0.7rem no-repeat;
+}
+
+/* indeterminate 优先于 checked:横杠。 */
+.dx-checkbox-native:indeterminate::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--primary-color);
+    -webkit-mask: var(--dx-dash-mask) center / 0.6rem 0.6rem no-repeat;
+    mask: var(--dx-dash-mask) center / 0.6rem 0.6rem no-repeat;
+}
+
+.dx-checkbox-native {
+    --dx-check-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    --dx-dash-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
+}
