@@ -33,23 +33,10 @@ pub fn Dialog(props: DialogRootProps) -> Element {
                 }
                 props.on_open_change.call(false);
             },
-            onmouseup: move |_| {
-                // 拖拽出界后在 backdrop 上松手:清除抑制标志,使后续真正的
-                // backdrop 点击能正常关闭对话框。(yougen 原实现在此处用
-                // `crate::api::sleep_for` 延时 32ms 清除以躲过同帧的
-                // click 事件;yoface 去除该业务耦合,改为即时清除——
-                // mousedown/click 上的 stop_propagation 已足够防误关。)
-                if suppress_backdrop_click() {
-                    suppress_backdrop_click.set(false);
-                }
-            },
             div {
                 onmousedown: move |event: dioxus::events::MouseEvent| {
                     suppress_backdrop_click.set(true);
                     event.stop_propagation();
-                },
-                onmouseup: move |_| {
-                    suppress_backdrop_click.set(false);
                 },
                 onclick: move |event: dioxus::events::MouseEvent| {
                     suppress_backdrop_click.set(false);
