@@ -21,6 +21,7 @@ pub use dioxus_icons;
 pub use dioxus_primitives;
 
 pub mod ui;
+pub mod utils;
 
 /// yoface 默认设计令牌(shadcn 命名)。下游可直接注入,或用同名令牌覆盖。
 ///
