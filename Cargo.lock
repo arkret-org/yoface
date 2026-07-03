@@ -2149,6 +2149,7 @@ dependencies = [
  "dioxus-icons",
  "dioxus-primitives",
  "gloo-timers 0.4.0",
+ "serde_json",
  "tokio",
 ]
 
