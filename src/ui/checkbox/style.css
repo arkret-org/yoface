@@ -1,27 +1,39 @@
 .dx-checkbox {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 1rem;
     width: 1rem;
     height: 1rem;
     box-sizing: border-box;
     padding: 0;
-    border: none;
+    border: 1px solid var(--primary-color-7);
     border-radius: 4px;
     margin: 0;
     background-color: var(--primary-color-3);
-    box-shadow: inset 0 0 0 1px var(--primary-color-7);
+    box-shadow: none;
     color: var(--secondary-color-4);
     cursor: pointer;
 }
 
 .dx-checkbox-indicator {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    height: 100%;
 }
 
 .dx-checkbox[data-state="checked"] {
+    border-color: var(--secondary-color-2);
     background-color: var(--secondary-color-2);
     box-shadow: none;
     color: var(--primary-color);
+}
+
+.dx-checkbox[data-state="checked"] .dx-checkbox-indicator,
+.dx-checkbox[data-state="indeterminate"] .dx-checkbox-indicator {
+    display: flex;
 }
 
 .dx-checkbox:focus-visible {
