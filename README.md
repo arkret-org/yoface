@@ -1,11 +1,11 @@
 # yoface
 
-Cokret 共享前端组件库。所有 Cokret 的 Dioxus 前端(yougen、sodmin 等)统一依赖
+Cokret 共享前端组件库。所有 Cokret 的 Dioxus 前端(inkson、sodmin 等)统一依赖
 本 crate:它**透传**官方 `dioxus-primitives` / `dioxus-icons`,并收纳一组以
 `#[css_module]` 封装、统一走设计令牌着色的自定义控件。
 
 - Dioxus 版本:**0.7.9**
-- 基准实现:yougen 的 `src/ui/`(`#[css_module]` + `dioxus_primitives` 封装)
+- 基准实现:inkson 的 `src/ui/`(`#[css_module]` + `dioxus_primitives` 封装)
 
 ---
 

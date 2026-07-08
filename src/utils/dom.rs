@@ -1,11 +1,11 @@
 //! Browser/webview DOM interop helpers shared by the frontends.
 //!
-//! Consolidated here (YGN-DRY-04) from five yougen copies of the clipboard
+//! Consolidated here (YGN-DRY-04) from five inkson copies of the clipboard
 //! helper and two copies of the new-tab opener. Both are security-sensitive
 //! boundaries (secure-context gating for the Clipboard API,
 //! `noopener,noreferrer` on `window.open`), so a single definition keeps any
 //! future hardening patch atomic. Uses `dioxus::document::eval` (the existing
-//! yoface/yougen convention for JS interop) and is a no-op when serialization
+//! yoface/inkson convention for JS interop) and is a no-op when serialization
 //! fails.
 
 use dioxus::document;

@@ -2,7 +2,7 @@
 
 /// Middle-elide an overly long string as "head...tail"; for read-only UI text.
 ///
-/// Previously yougen `views::helpers::shorten_ascii_middle` and several inline
+/// Previously inkson `views::helpers::shorten_ascii_middle` and several inline
 /// `take(n)+"..."` snippets in sodmin each carried a copy; consolidated here.
 /// Returns the value unchanged when `value.len() <= head + tail + 3`; otherwise
 /// returns `{head}...{tail}`.
@@ -25,7 +25,7 @@ const SHORT_PROTOCOL_ID_THRESHOLD: usize = 32;
 /// payloads must keep the canonical value — this helper is intentionally for
 /// read-only UI text such as menus, badges, rows, and status labels.
 ///
-/// Moved here from yougen `views::helpers` (single source; sodmin can share).
+/// Moved here from inkson `views::helpers` (single source; sodmin can share).
 pub fn short_protocol_id(value: impl AsRef<str>) -> String {
     let value = value.as_ref().trim();
     if value.len() <= SHORT_PROTOCOL_ID_THRESHOLD {

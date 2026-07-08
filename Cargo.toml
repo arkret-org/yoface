@@ -1,6 +1,6 @@
 # yoface — Cokret 共享前端组件库
 #
-# 所有 Cokret 的 Dioxus 前端(yougen、sodmin 等)统一依赖本 crate。
+# 所有 Cokret 的 Dioxus 前端(inkson、sodmin 等)统一依赖本 crate。
 # yoface 透传官方 dioxus-primitives / dioxus-icons,并收纳一组以
 # `#[css_module]` 封装的自定义控件;所有颜色走 `tokens.css` 的设计令牌,
 # 主题留给下游覆盖。
@@ -20,7 +20,7 @@ license = "Apache-2.0"
 repository = "https://github.com/cokret/yoface"
 
 [dependencies]
-# 透传官方原语 + 图标。default-features = false 与 yougen 对齐,
+# 透传官方原语 + 图标。default-features = false 与 inkson 对齐,
 # 避免拉入 desktop/web 双 backend 冲突;下游按 target 自行启用 dioxus 的
 # desktop/web feature。
 dioxus = { workspace = true }
@@ -40,7 +40,7 @@ gloo-timers = { workspace = true, features = ["futures"] }
 tokio = { workspace = true, features = ["time", "rt"] }
 
 # ---------------------------------------------------------------------------
-# 以下 patch + workspace 段从 yougen/Cargo.toml 照搬。yoface 作为独立 git
+# 以下 patch + workspace 段从 inkson/Cargo.toml 照搬。yoface 作为独立 git
 # 仓的 workspace 根,需要自带这些定义才能编译;下游各前端也必须复制 patch 段。
 # rev 钉死,升级时手工 bump(见 README.md「单一真相源」)。
 # ---------------------------------------------------------------------------

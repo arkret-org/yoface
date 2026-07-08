@@ -2,7 +2,7 @@
 
 /// Format a byte count as a human-readable size (B/KB/MB/GB/TB) using base 1024.
 ///
-/// Previously yougen `file_transfer::format_size` and sodmin
+/// Previously inkson `file_transfer::format_size` and sodmin
 /// `pages::media::format_bytes` each carried an equivalent copy; consolidated
 /// here. Rules:
 /// - Below 1 KB: `{n} B` (integer).
