@@ -5,7 +5,7 @@
 //! 原生 `<input type=checkbox>` 变体,不破坏既有 [`super::Checkbox`]。
 //!
 //! `indeterminate` 不是 HTML 属性,只能在渲染后通过 DOM property 设置——
-//! 这里用 `dioxus::document::eval`(yoface/yougen 既有约定,无需引入
+//! 这里用 `dioxus::document::eval`(yoface/inkson 既有约定,无需引入
 //! `web-sys` / `wasm-bindgen`,host 下为安全 no-op)在每次渲染后把
 //! `el.indeterminate` 同步到 prop。
 //!

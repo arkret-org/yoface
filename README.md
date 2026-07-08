@@ -58,7 +58,7 @@ subsecond-types   = { git = "https://github.com/cokret/dioxus", rev = "e59f9f24a
 [dependencies]
 yoface = { path = "../yoface" }            # 或 git
 dioxus = "0.7.9"
-# 下游按 target 启用 dioxus 的 desktop / web feature,与 yougen 现状一致
+# 下游按 target 启用 dioxus 的 desktop / web feature,与 inkson 现状一致
 ```
 
 ---
@@ -76,7 +76,7 @@ use yoface::dioxus_icons;        // lucide 等图标:yoface::dioxus_icons::lucid
 
 ### 3.2 yoface 自带封装(`yoface::ui::*`)
 
-dioxus-primitives 之上的 Cokret `#[css_module]` 封装(自 yougen `src/ui` 原样迁入):
+dioxus-primitives 之上的 Cokret `#[css_module]` 封装(自 inkson `src/ui` 原样迁入):
 
 | 模块 | 组件 |
 | --- | --- |
@@ -116,7 +116,7 @@ dioxus-primitives 之上的 Cokret `#[css_module]` 封装(自 yougen `src/ui` �
 > - `page_header::Breadcrumbs`:`BreadcrumbItem.href: Option<String>` 取代强类型
 >   `Route`。下游用 dioxus-router 时在外层把 `Route` 渲染成 `href` 字符串。
 > - `pagination`:复用 `yoface::ui::button`。文案默认英文,可经 props 覆盖。
-> - `dialog`:去除 yougen 的 `crate::api::sleep_for` 业务调用,改为即时清除
+> - `dialog`:去除 inkson 的 `crate::api::sleep_for` 业务调用,改为即时清除
 >   backdrop 抑制标志(`mousedown`/`click` 的 `stop_propagation` 已足够防误关)。
 
 ### 3.3 用法示例
@@ -263,7 +263,7 @@ fn Demo() -> Element {
   `--success` / `--border` / `--input` / `--ring` / `--radius` / `--shadow-*` …
 - **第二层(兼容别名)**:`--primary-color-N` / `--secondary-color-N` /
   `--primary-error-color` / `--focused-border-color` 等,全部指向第一层,
-  不持有独立色值。这是 yougen 封装迁入的桥接层,改主题只需动第一层。
+  不持有独立色值。这是 inkson 封装迁入的桥接层,改主题只需动第一层。
 - **明 / 暗**:沿用 dioxus-components 的 `--light` / `--dark` 双值开关。
   默认跟随 `prefers-color-scheme`;也可在根元素显式设 `data-theme="light"` /
   `data-theme="dark"` 强制。

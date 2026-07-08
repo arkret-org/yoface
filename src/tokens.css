@@ -8,7 +8,7 @@
  *   3. 第二层是为兼容 dioxus-components 封装而保留的别名令牌
  *      (`--primary-color-N` / `--secondary-color-N` / `--*-error-color` /
  *      `--focused-border-color`),它们一律「指向」第一层语义令牌,
- *      不再独立持有色值。yoface 自带组件从 yougen 原样搬迁,仍引用这批
+ *      不再独立持有色值。yoface 自带组件从 inkson 原样搬迁,仍引用这批
  *      别名,因此别名层是迁移的必要桥接,而非新增颜色源。
  *
  * 明 / 暗:沿用 dioxus-components 的 `--light` / `--dark` 双值开关 hack。
@@ -37,7 +37,7 @@
 
 /* =========================================================================
  * 第一层:shadcn 语义令牌(下游覆盖入口)
- * 取值参照 yougen src/styles/design.css 的调色板。
+ * 取值参照 inkson src/styles/design.css 的调色板。
  * ========================================================================= */
 :root {
   /* 表面与文本 */
@@ -123,7 +123,7 @@
   --primary-error-color:  var(--destructive);
   --contrast-error-color: var(--destructive-foreground);
 
-  /* button.css 的 CTA 渐变还引用了以下 yougen 自有别名,统一桥接到语义令牌。 */
+  /* button.css 的 CTA 渐变还引用了以下 inkson 自有别名,统一桥接到语义令牌。 */
   --accent-2:        var(--primary-2);
   --accent-strong:   var(--primary-strong);
   --text-on-accent:  var(--primary-foreground);
