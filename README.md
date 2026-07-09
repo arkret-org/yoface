@@ -1,6 +1,6 @@
 # yoface
 
-Cokret 共享前端组件库。所有 Cokret 的 Dioxus 前端(inkson、sodmin 等)统一依赖
+Arkret 共享前端组件库。所有 Arkret 的 Dioxus 前端(inkson、sodmin 等)统一依赖
 本 crate:它**透传**官方 `dioxus-primitives` / `dioxus-icons`,并收纳一组以
 `#[css_module]` 封装、统一走设计令牌着色的自定义控件。
 
@@ -16,8 +16,8 @@ yoface 与所有下游必须钉死同一对 fork revision。**升级时只在本
 
 | 用途 | git 源 | rev |
 | --- | --- | --- |
-| dioxus core(及 generational-box / subsecond) | `https://github.com/cokret/dioxus` | `e59f9f24a5c27c9303cd61edd0452b44161374ab` |
-| dioxus components(dioxus-primitives) | `https://github.com/cokret/dioxus-components` | `3510aeee2d14f0ca2c11682c9b826650cb557d2f` |
+| dioxus core(及 generational-box / subsecond) | `https://github.com/arkret/dioxus` | `e59f9f24a5c27c9303cd61edd0452b44161374ab` |
+| dioxus components(dioxus-primitives) | `https://github.com/arkret/dioxus-components` | `3510aeee2d14f0ca2c11682c9b826650cb557d2f` |
 
 为什么必须 fork:
 
@@ -42,14 +42,14 @@ yoface 与所有下游必须钉死同一对 fork revision。**升级时只在本
 
 ```toml
 [patch."https://github.com/DioxusLabs/components"]
-dioxus-primitives = { git = "https://github.com/cokret/dioxus-components", rev = "3510aeee2d14f0ca2c11682c9b826650cb557d2f" }
+dioxus-primitives = { git = "https://github.com/arkret/dioxus-components", rev = "3510aeee2d14f0ca2c11682c9b826650cb557d2f" }
 
 [patch.crates-io]
-dioxus-core       = { git = "https://github.com/cokret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-dioxus-core-types = { git = "https://github.com/cokret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-generational-box  = { git = "https://github.com/cokret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-subsecond         = { git = "https://github.com/cokret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-subsecond-types   = { git = "https://github.com/cokret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+dioxus-core       = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+dioxus-core-types = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+generational-box  = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+subsecond         = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+subsecond-types   = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
 ```
 
 依赖声明示例(下游 Cargo.toml):
@@ -76,7 +76,7 @@ use yoface::dioxus_icons;        // lucide 等图标:yoface::dioxus_icons::lucid
 
 ### 3.2 yoface 自带封装(`yoface::ui::*`)
 
-dioxus-primitives 之上的 Cokret `#[css_module]` 封装(自 inkson `src/ui` 原样迁入):
+dioxus-primitives 之上的 Arkret `#[css_module]` 封装(自 inkson `src/ui` 原样迁入):
 
 | 模块 | 组件 |
 | --- | --- |

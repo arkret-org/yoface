@@ -2,7 +2,7 @@
 //!
 //! 全部以 `#[css_module]` 封装,颜色走 `tokens.css` 的设计令牌。
 //! 官方 dioxus-primitives 已提供的原语请直接用 `yoface::dioxus_primitives`,
-//! 这里只放在其之上的 Cokret 封装,以及官方没有的后台实用控件。
+//! 这里只放在其之上的 Arkret 封装,以及官方没有的后台实用控件。
 
 // --- 自 inkson src/ui 迁入:dioxus-primitives 之上的 css_module 封装 ---
 pub mod badge;

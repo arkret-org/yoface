@@ -1,6 +1,6 @@
-//! # yoface — Cokret 共享前端组件库
+//! # yoface — Arkret 共享前端组件库
 //!
-//! 所有 Cokret 的 Dioxus 前端统一依赖本 crate。它做三件事:
+//! 所有 Arkret 的 Dioxus 前端统一依赖本 crate。它做三件事:
 //!
 //! 1. **透传官方原语**:`pub use dioxus_primitives;` / `pub use dioxus_icons;`
 //!    —— 下游通过 `yoface::dioxus_primitives::...` 拿到与 yoface 同源(同一
