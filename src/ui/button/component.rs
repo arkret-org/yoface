@@ -5,6 +5,10 @@ use dioxus_primitives::merge_attributes;
 #[css_module("/src/ui/button/style.css")]
 struct Styles;
 
+/// Stable class used by hosts that inline [`super::BUTTON_CSS`] as a fallback
+/// when CSS-module asset hashes become stale after a workspace relocation.
+pub const BUTTON_CLASS: &str = "dx-button";
+
 #[derive(Copy, Clone, PartialEq, Default)]
 #[non_exhaustive]
 pub enum ButtonVariant {
@@ -72,8 +76,9 @@ pub fn Button(
     onkeydown: Option<EventHandler<KeyboardEvent>>,
     children: Element,
 ) -> Element {
+    let class = format!("{} {BUTTON_CLASS}", Styles::dx_button);
     let base = attributes!(button {
-        class: Styles::dx_button,
+        class,
         "data-style": variant.class(),
         "data-size": size.class(),
     });
@@ -104,5 +109,18 @@ pub fn Button(
             ..merged,
             {children}
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn stable_button_class_matches_the_unhashed_stylesheet() {
+        assert_eq!(BUTTON_CLASS, "dx-button");
+        assert!(super::super::BUTTON_CSS.contains(".dx-button"));
+        assert!(super::super::BUTTON_CSS.contains("[data-style=\"primary\"]"));
+        assert!(super::super::BUTTON_CSS.contains("[data-size=\"default\"]"));
     }
 }
