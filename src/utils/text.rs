@@ -21,7 +21,7 @@ pub fn truncate_middle(value: &str, head: usize, tail: usize) -> String {
 const SHORT_PROTOCOL_ID_THRESHOLD: usize = 32;
 
 /// Return a compact, display-only label for long protocol identifiers
-/// (DIDs / `ck:*` ids). Storage, inputs, copy buttons, routes, and API
+/// (DIDs / `ak:*` ids). Storage, inputs, copy buttons, routes, and API
 /// payloads must keep the canonical value — this helper is intentionally for
 /// read-only UI text such as menus, badges, rows, and status labels.
 ///
