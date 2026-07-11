@@ -73,7 +73,7 @@ subsecond-types   = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a
 resolver = "3"
 
 [workspace.dependencies]
-dioxus = "0.7.9"
+dioxus = {version = "0.7.9",default-features = false,features = ["macro", "html", "signals", "hooks", "document"]}
 serde_json = "1"
 dioxus-icons = { version = "0.1.0", default-features = false }
 dioxus-primitives = { version = "0.0.1", git = "https://github.com/DioxusLabs/components", default-features = false }
