@@ -17,7 +17,7 @@ edition = "2024"
 rust-version = "1.96"
 description = "Arkret shared Dioxus frontend component library"
 license = "Apache-2.0"
-repository = "https://github.com/arkret/yoface"
+repository = "https://github.com/arkret-org/yoface"
 
 [dependencies]
 # 透传官方原语 + 图标。default-features = false 与 inkson 对齐,
