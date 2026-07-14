@@ -50,9 +50,9 @@ tokio = { workspace = true, features = ["time", "rt"] }
 # Dialog 实例注入该脚本,dioxus 跨 mount 重复执行时顶层 `class FocusTrap`
 # 重声明抛 SyntaxError,腐蚀 focus-trap eval 闭包并导致 wasm 堆损坏。
 [patch."https://github.com/DioxusLabs/components"]
-dioxus-primitives = { git = "https://github.com/arkret/dioxus-components", rev = "3510aeee2d14f0ca2c11682c9b826650cb557d2f" }
+dioxus-primitives = { git = "https://github.com/arkret-org/dioxus-components", rev = "3510aeee2d14f0ca2c11682c9b826650cb557d2f" }
 
-# arkret fork of DioxusLabs/dioxus,在 v0.7.9 tag 上分支。唯一 delta 是
+# arkret-org fork of DioxusLabs/dioxus,在 v0.7.9 tag 上分支。唯一 delta 是
 # `Callback::__point_to`:upstream 0.7.9 对 `point_to` 调 `.unwrap()`,当
 # `Option<EventHandler>` prop 的 owner scope 在同一帧被回收时整个 wasm 实例
 # abort(白屏)。fork 把该 unwrap 降级为 trace-log no-op。
@@ -61,13 +61,13 @@ dioxus-primitives = { git = "https://github.com/arkret/dioxus-components", rev =
 # `dioxus-core` 会经 workspace deps 拉入 git `generational-box` / `subsecond`,
 # 若 registry 副本仍在,同一 crate 会存在于两个 source 下,`GenerationalBox<T>`
 # 在 registry `dioxus-signals`/`dioxus-web` 与 patched core 之间 mismatch。
-# 见 https://github.com/arkret/dioxus/commit/e59f9f24a5c27c9303cd61edd0452b44161374ab
+# 见 https://github.com/arkret-org/dioxus/commit/e59f9f24a5c27c9303cd61edd0452b44161374ab
 [patch.crates-io]
-dioxus-core       = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-dioxus-core-types = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-generational-box  = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-subsecond         = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-subsecond-types   = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+dioxus-core       = { git = "https://github.com/arkret-org/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+dioxus-core-types = { git = "https://github.com/arkret-org/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+generational-box  = { git = "https://github.com/arkret-org/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+subsecond         = { git = "https://github.com/arkret-org/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+subsecond-types   = { git = "https://github.com/arkret-org/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
 
 [workspace]
 resolver = "3"
