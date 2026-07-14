@@ -16,8 +16,8 @@ yoface 与所有下游必须钉死同一对 fork revision。**升级时只在本
 
 | 用途 | git 源 | rev |
 | --- | --- | --- |
-| dioxus core(及 generational-box / subsecond) | `https://github.com/arkret/dioxus` | `e59f9f24a5c27c9303cd61edd0452b44161374ab` |
-| dioxus components(dioxus-primitives) | `https://github.com/arkret/dioxus-components` | `3510aeee2d14f0ca2c11682c9b826650cb557d2f` |
+| dioxus core(及 generational-box / subsecond) | `https://github.com/arkret-org/dioxus` | `e59f9f24a5c27c9303cd61edd0452b44161374ab` |
+| dioxus components(dioxus-primitives) | `https://github.com/arkret-org/dioxus-components` | `3510aeee2d14f0ca2c11682c9b826650cb557d2f` |
 
 为什么必须 fork:
 
@@ -42,14 +42,14 @@ yoface 与所有下游必须钉死同一对 fork revision。**升级时只在本
 
 ```toml
 [patch."https://github.com/DioxusLabs/components"]
-dioxus-primitives = { git = "https://github.com/arkret/dioxus-components", rev = "3510aeee2d14f0ca2c11682c9b826650cb557d2f" }
+dioxus-primitives = { git = "https://github.com/arkret-org/dioxus-components", rev = "3510aeee2d14f0ca2c11682c9b826650cb557d2f" }
 
 [patch.crates-io]
-dioxus-core       = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-dioxus-core-types = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-generational-box  = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-subsecond         = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
-subsecond-types   = { git = "https://github.com/arkret/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+dioxus-core       = { git = "https://github.com/arkret-org/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+dioxus-core-types = { git = "https://github.com/arkret-org/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+generational-box  = { git = "https://github.com/arkret-org/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+subsecond         = { git = "https://github.com/arkret-org/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
+subsecond-types   = { git = "https://github.com/arkret-org/dioxus", rev = "e59f9f24a5c27c9303cd61edd0452b44161374ab" }
 ```
 
 依赖声明示例(下游 Cargo.toml):
