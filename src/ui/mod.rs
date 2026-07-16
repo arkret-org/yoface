@@ -1,10 +1,12 @@
-//! yoface 自定义控件集合。
+//! yoface's collection of custom controls.
 //!
-//! 全部以 `#[css_module]` 封装,颜色走 `tokens.css` 的设计令牌。
-//! 官方 dioxus-primitives 已提供的原语请直接用 `yoface::dioxus_primitives`,
-//! 这里只放在其之上的 Arkret 封装,以及官方没有的后台实用控件。
+//! Every one of them is wrapped with `#[css_module]`, and colored through the
+//! design tokens in `tokens.css`. For primitives the official
+//! dioxus-primitives already provides, use `yoface::dioxus_primitives`
+//! directly; this module only holds the Arkret wrappers built on top of them,
+//! plus the admin-facing utility controls the official crate does not have.
 
-// --- 自 inkson src/ui 迁入:dioxus-primitives 之上的 css_module 封装 ---
+// --- Moved in from inkson src/ui: css_module wrappers over dioxus-primitives ---
 pub mod badge;
 pub mod button;
 pub mod card;
@@ -19,7 +21,8 @@ pub mod switch;
 pub mod tabs;
 pub mod textarea;
 
-// --- 自 sodmin 收纳:官方原语没有的后台实用控件(已改写为 css_module) ---
+// --- Collected from sodmin: admin utility controls the official primitives
+//     lack (rewritten as css_module) ---
 pub mod empty_state;
 pub mod error_banner;
 pub mod info_row;

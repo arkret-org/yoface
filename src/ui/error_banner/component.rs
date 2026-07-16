@@ -3,17 +3,24 @@ use dioxus::prelude::*;
 #[css_module("/src/ui/error_banner/style.css")]
 struct Styles;
 
-/// 列表 / 详情页通用的内联错误横幅。
+/// The inline error banner shared by list / detail pages.
 ///
-/// 解耦说明:sodmin 原实现耦合 `crate::utils::i18n::t`(本地化)、
-/// `crate::utils::net::telemetry`(埋点)与 `HttpError` 信封类型。yoface
-/// 作为共享库不引入这些业务依赖,改为纯展示组件:
-///   * `message` 为人类可读摘要;
-///   * `error_label` / `retry_label` 文案由调用方传入(默认英文),
-///     下游本地化在外层完成;
-///   * `detail` 是可选的二级说明(下游若有错误码→文案映射,在外层解析后传入);
-///   * `errcode` / `request_id` / `retry_after_ms` 直接展示为元信息 chip;
-///   * 埋点等副作用留给下游在调用处自行处理。
+/// Decoupling note: sodmin's original implementation was coupled to
+/// `crate::utils::i18n::t` (localization), `crate::utils::net::telemetry`
+/// (analytics) and the `HttpError` envelope type. yoface, being a shared
+/// library, does not pull in those business dependencies and is instead a pure
+/// presentational component:
+///   * `message` is the human-readable summary;
+///   * the `error_label` / `retry_label` copy is passed in by the caller
+///     (English by default), with downstream localization done at the outer
+///     layer;
+///   * `detail` is an optional secondary explanation (if downstream has an
+///     error-code-to-copy mapping, it resolves it outside and passes the
+///     result in);
+///   * `errcode` / `request_id` / `retry_after_ms` are displayed directly as
+///     metadata chips;
+///   * side effects such as analytics are left for downstream to handle at the
+///     call site.
 #[component]
 pub fn ErrorBanner(
     message: String,

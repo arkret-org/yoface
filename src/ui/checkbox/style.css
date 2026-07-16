@@ -41,9 +41,10 @@
 }
 
 /* ---------------------------------------------------------------------------
- * 三态原生 checkbox(TristateCheckbox)。
- * dioxus-primitives checkbox 无法表达 indeterminate,这里用 appearance:none
- * 的原生 input 自绘 check / 横杠两种指示符。颜色全部取设计令牌。
+ * The tristate native checkbox (TristateCheckbox).
+ * The dioxus-primitives checkbox cannot express indeterminate, so this draws
+ * both the check and dash indicators itself on an appearance:none native
+ * input. All colors come from the design tokens.
  * ------------------------------------------------------------------------- */
 .dx-checkbox-native {
     appearance: none;
@@ -73,7 +74,8 @@
     box-shadow: 0 0 0 2px var(--focused-border-color);
 }
 
-/* 选中:实心底 + 对勾(SVG mask 用 currentColor 描边的折线)。 */
+/* Checked: solid background + checkmark (an SVG mask polyline stroked with
+   currentColor). */
 .dx-checkbox-native:checked,
 .dx-checkbox-native:indeterminate {
     background-color: var(--secondary-color-2);
@@ -89,7 +91,7 @@
     mask: var(--dx-check-mask) center / 0.7rem 0.7rem no-repeat;
 }
 
-/* indeterminate 优先于 checked:横杠。 */
+/* indeterminate takes precedence over checked: the dash. */
 .dx-checkbox-native:indeterminate::after {
     content: "";
     position: absolute;

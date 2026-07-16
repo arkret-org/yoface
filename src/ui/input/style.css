@@ -37,7 +37,8 @@
   outline: none;
 }
 
-/* SearchInput:相对定位容器 + 左侧图标 + 留白的 input。 */
+/* SearchInput: a relatively positioned container + a leading icon + an input
+   with room left for it. */
 .dx-search {
   position: relative;
   display: block;

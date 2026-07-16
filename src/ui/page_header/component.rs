@@ -3,7 +3,8 @@ use dioxus::prelude::*;
 #[css_module("/src/ui/page_header/style.css")]
 struct Styles;
 
-/// 页面标题区:标题 + 可选描述 + 右侧动作槽(`children`)。
+/// The page title area: title + optional description + the action slot on the
+/// right (`children`).
 #[component]
 pub fn PageHeader(
     title: String,
@@ -23,11 +24,14 @@ pub fn PageHeader(
     }
 }
 
-/// 面包屑条目。`href` 为 `None` 时渲染为当前页(不可点)。
+/// A breadcrumb item. When `href` is `None` it renders as the current page
+/// (not clickable).
 ///
-/// 解耦说明:sodmin 原实现用 `crate::router::Route` 强类型路由。yoface
-/// 作为共享库不假设下游路由类型,改用 `href: Option<String>` + `<a>`。
-/// 下游若用 dioxus-router,可在外层包一层把 `Route` 渲染成 `<a href>` 即可。
+/// Decoupling note: sodmin's original implementation used the strongly typed
+/// `crate::router::Route`. yoface, being a shared library, makes no assumption
+/// about downstream's route type and instead uses `href: Option<String>` +
+/// `<a>`. If downstream uses dioxus-router, it can wrap a layer on the outside
+/// that renders `Route` into an `<a href>`.
 #[derive(Debug, Clone, PartialEq)]
 pub struct BreadcrumbItem {
     pub label: String,

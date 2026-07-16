@@ -1,16 +1,22 @@
-//! 支持三态(checked / unchecked / indeterminate)的 yoface checkbox 变体。
+//! A yoface checkbox variant supporting three states (checked / unchecked /
+//! indeterminate).
 //!
-//! dioxus-primitives 的 `checkbox::Checkbox` 只表达 `checked` / `unchecked`
-//! 两态(HTML `checked` 属性无法表达 indeterminate),故这里**自实现**一个
-//! 原生 `<input type=checkbox>` 变体,不破坏既有 [`super::Checkbox`]。
+//! dioxus-primitives' `checkbox::Checkbox` only expresses the two states
+//! `checked` / `unchecked` (the HTML `checked` attribute cannot express
+//! indeterminate), so this module provides its **own implementation** over a
+//! native `<input type=checkbox>`, without disturbing the existing
+//! [`super::Checkbox`].
 //!
-//! `indeterminate` 不是 HTML 属性,只能在渲染后通过 DOM property 设置——
-//! 这里用 `dioxus::document::eval`(yoface/inkson 既有约定,无需引入
-//! `web-sys` / `wasm-bindgen`,host 下为安全 no-op)在每次渲染后把
-//! `el.indeterminate` 同步到 prop。
+//! `indeterminate` is not an HTML attribute; it can only be set as a DOM
+//! property after render —— so this uses `dioxus::document::eval` (the
+//! established yoface/inkson convention: no need to pull in `web-sys` /
+//! `wasm-bindgen`, and a safe no-op on host) to sync `el.indeterminate` to the
+//! prop after every render.
 //!
-//! 纯叶子:`onchange(bool)` 回调的值是 DOM 翻转后的**新意图**;
-//! indeterminate→点击 的语义(通常是「全选当前页」)由父组件决定。
+//! A pure leaf: the value of the `onchange(bool)` callback is the **new
+//! intent** after the DOM has toggled; the semantics of clicking while
+//! indeterminate (usually "select all on the current page") are decided by the
+//! parent component.
 
 use dioxus::prelude::*;
 use std::sync::atomic::{AtomicU64, Ordering};
@@ -20,8 +26,9 @@ struct Styles;
 
 static TRISTATE_SEQ: AtomicU64 = AtomicU64::new(0);
 
-/// 三态 checkbox。`indeterminate` 为真时渲染「部分选中」横杠态(用于表头
-/// 全选单元格)。`id` 留空则自动生成稳定唯一 id 供 `indeterminate` 反射。
+/// A tristate checkbox. When `indeterminate` is true it renders the "partially
+/// selected" dash state (used by the header select-all cell). Leaving `id`
+/// empty auto-generates a stable unique id for the `indeterminate` reflection.
 #[component]
 pub fn TristateCheckbox(
     #[props(default)] id: String,
@@ -32,7 +39,8 @@ pub fn TristateCheckbox(
     #[props(default)] disabled: bool,
     #[props(default)] onchange: EventHandler<bool>,
 ) -> Element {
-    // 每个实例一个稳定 id(渲染间不变),用于 eval 定位元素反射 indeterminate。
+    // One stable id per instance (unchanged across renders), used by eval to
+    // locate the element and reflect indeterminate onto it.
     let resolved_id = use_hook(|| {
         if id.is_empty() {
             format!(
@@ -44,7 +52,8 @@ pub fn TristateCheckbox(
         }
     });
 
-    // 每次渲染后把 indeterminate 反射到 DOM property(HTML 属性表达不了)。
+    // After each render, reflect indeterminate onto the DOM property (an HTML
+    // attribute cannot express it).
     {
         let id_for_eval = resolved_id.clone();
         use_effect(move || {
@@ -72,8 +81,10 @@ pub fn TristateCheckbox(
             checked,
             disabled,
             onchange: move |evt| {
-                // 浏览器在 fire change 前已翻转 checked;从事件读新状态而非
-                // 取反过期 prop(上一帧若是 indeterminate,取反是错的)。
+                // The browser has already toggled checked before firing change;
+                // read the new state from the event rather than negating a
+                // stale prop (if the previous frame was indeterminate,
+                // negating is wrong).
                 let v = evt.value();
                 let new_state = v == "true" || v == "on";
                 onchange.call(new_state);
@@ -82,8 +93,10 @@ pub fn TristateCheckbox(
     }
 }
 
-/// 纯函数:给定当前页已选行数与本页可选总行数,推导表头「全选」单元格的
-/// `(checked, indeterminate)`。空页渲染为未选 / 非中间态,避免表头「说谎」。
+/// Pure function: given the number of selected rows on the current page and
+/// the total number of selectable rows on that page, derive the
+/// `(checked, indeterminate)` of the header "select all" cell. An empty page
+/// renders as unselected / non-indeterminate, so the header cannot "lie".
 pub fn header_state(selected_on_page: usize, page_size: usize) -> (bool, bool) {
     if page_size == 0 || selected_on_page == 0 {
         (false, false)
@@ -113,7 +126,8 @@ mod tests {
     #[test]
     fn header_state_full() {
         assert_eq!(header_state(10, 10), (true, false));
-        // 越界计数(防御性——不该发生,但行为稳定)
+        // Out-of-range count (defensive —— should not happen, but the behavior
+        // stays stable)
         assert_eq!(header_state(11, 10), (true, false));
     }
 }

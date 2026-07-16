@@ -3,7 +3,8 @@ use dioxus::prelude::*;
 #[css_module("/src/ui/loading/style.css")]
 struct Styles;
 
-/// 通用骨架屏:标题条 + 三行文本。`class` 可选,透传到外层容器。
+/// The general-purpose skeleton: a title bar + three lines of text. `class` is
+/// optional and passes through to the outer container.
 #[component]
 pub fn LoadingSkeleton(#[props(default)] class: String) -> Element {
     let block_class = if class.is_empty() {
@@ -23,7 +24,7 @@ pub fn LoadingSkeleton(#[props(default)] class: String) -> Element {
     }
 }
 
-/* 统计卡片骨架网格。 */
+/* The stat card skeleton grid. */
 #[component]
 pub fn StatsSkeleton(#[props(default = 4)] count: u32) -> Element {
     rsx! {
@@ -38,8 +39,9 @@ pub fn StatsSkeleton(#[props(default = 4)] count: u32) -> Element {
     }
 }
 
-/// 整页骨架屏:标题区 + 统计卡片网格 + 一个内容卡片。
-/// 用于页面首次加载占位。`card_count` 控制统计卡数量。
+/// The full-page skeleton: a title area + the stat card grid + one content
+/// card. Used as the placeholder while a page loads for the first time.
+/// `card_count` controls the number of stat cards.
 #[component]
 pub fn PageSkeleton(#[props(default = 3)] card_count: u32) -> Element {
     rsx! {
@@ -68,8 +70,9 @@ pub fn PageSkeleton(#[props(default = 3)] card_count: u32) -> Element {
     }
 }
 
-/// 单个圆形旋转加载指示器,颜色取 `currentColor`。`class` 可选,透传到
-/// `<svg>`(例如按钮内联 spinner 调整尺寸/颜色)。
+/// A single circular spinning loading indicator, colored with `currentColor`.
+/// `class` is optional and passes through to the `<svg>` (for example, to
+/// adjust the size/color of a spinner inlined in a button).
 #[component]
 pub fn Spinner(#[props(default)] class: String) -> Element {
     let svg_class = if class.is_empty() {

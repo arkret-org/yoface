@@ -3,7 +3,8 @@ use dioxus::prelude::*;
 #[css_module("/src/ui/info_row/style.css")]
 struct Styles;
 
-/// 详情页的「标签 / 值」行:左侧弱化标签,右侧右对齐、可换行的值。
+/// The "label / value" row of a detail page: a muted label on the left, and a
+/// right-aligned, wrappable value on the right.
 #[component]
 pub fn InfoRow(label: String, value: String) -> Element {
     rsx! {

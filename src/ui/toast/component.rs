@@ -37,12 +37,13 @@ pub static TOASTS: GlobalSignal<Vec<Toast>> = GlobalSignal::new(Vec::new);
 
 const MAX_TOASTS: usize = 5;
 
-/// 弹出一条 toast。到期后自动消失(成功 3s / 错误 5s;含动作时至少 5s)。
+/// Pops up a toast. It disappears automatically once it expires (3s for
+/// success / 5s for error; at least 5s when it carries an action).
 pub fn show_toast(message: &str, variant: ToastVariant) {
     show_toast_with_action(message, variant, None);
 }
 
-/// 弹出一条带可点击动作链接的 toast。
+/// Pops up a toast carrying a clickable action link.
 pub fn show_toast_with_action(message: &str, variant: ToastVariant, action: Option<ToastAction>) {
     let id = {
         let mut counter = TOAST_COUNTER.write();
@@ -85,7 +86,8 @@ fn dismiss_toast(id: u64) {
     toasts.retain(|t| t.id != id);
 }
 
-/// 平台无关的延时。wasm 走 `setTimeout`(gloo-timers),host 走 tokio。
+/// A platform-independent delay. wasm goes through `setTimeout`
+/// (gloo-timers), host goes through tokio.
 async fn sleep_ms(ms: u32) {
     #[cfg(target_arch = "wasm32")]
     {
@@ -97,7 +99,8 @@ async fn sleep_ms(ms: u32) {
     }
 }
 
-/// 全局 toast 容器。挂一次到应用根即可,内容由 [`show_toast`] 驱动。
+/// The global toast container. Mount it once at the app root; its contents are
+/// driven by [`show_toast`].
 #[component]
 pub fn Toaster() -> Element {
     let toasts = TOASTS.read();

@@ -3,7 +3,8 @@ use dioxus::prelude::*;
 #[css_module("/src/ui/table/style.css")]
 struct Styles;
 
-/// 数据表外壳。包一层可横向滚动的容器 + `<table>`。
+/// The data table shell. Wraps a horizontally scrollable container +
+/// `<table>`.
 #[component]
 pub fn Table(
     #[props(extends = GlobalAttributes)] attributes: Vec<Attribute>,
@@ -76,7 +77,7 @@ pub fn TableCell(
     }
 }
 
-/// 列表为空时渲染在 `TableBody` 内的占位行。
+/// The placeholder row rendered inside `TableBody` when the list is empty.
 #[component]
 pub fn EmptyRow(colspan: i64, message: String) -> Element {
     rsx! {

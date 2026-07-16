@@ -1,21 +1,29 @@
-//! # yoface — Arkret 共享前端组件库
+//! # yoface — Arkret shared frontend component library
 //!
-//! 所有 Arkret 的 Dioxus 前端统一依赖本 crate。它做三件事:
+//! Every Arkret Dioxus frontend depends on this crate. It does three things:
 //!
-//! 1. **透传官方原语**:`pub use dioxus_primitives;` / `pub use dioxus_icons;`
-//!    —— 下游通过 `yoface::dioxus_primitives::...` 拿到与 yoface 同源(同一
-//!    components fork rev)的原语,杜绝 `GenerationalBox` 跨源 mismatch。
-//! 2. **自定义控件**:`pub mod ui` 收纳一组 `#[css_module]` 封装控件
-//!    (按钮 / 卡片 / 表格 / toast / 分页 …),全部以设计令牌着色。
-//! 3. **设计令牌**:`tokens.css`(见 [`TOKENS_CSS`])集中所有颜色 / 半径 /
-//!    阴影变量,组件样式只引用变量、不写死颜色,主题留给下游覆盖。
+//! 1. **Re-export the official primitives**: `pub use dioxus_primitives;` /
+//!    `pub use dioxus_icons;` —— downstream gets, via
+//!    `yoface::dioxus_primitives::...`, primitives from the same source as
+//!    yoface (the same components fork rev), ruling out cross-source
+//!    `GenerationalBox` mismatches.
+//! 2. **Custom controls**: `pub mod ui` collects a set of `#[css_module]`
+//!    wrapper controls (button / card / table / toast / pagination …), all
+//!    colored through design tokens.
+//! 3. **Design tokens**: `tokens.css` (see [`TOKENS_CSS`]) centralizes every
+//!    color / radius / shadow variable; component styles only reference the
+//!    variables and never hardcode colors, leaving theming to downstream
+//!    overrides.
 //!
-//! ## 样式注入
+//! ## Style injection
 //!
-//! `#[css_module]` 的样式由 manganis 在编译期收集,随组件首次渲染注入。
-//! `tokens.css` 不走 css_module(它定义的是全局 `:root` 变量),下游需要
-//! 自行把 [`TOKENS_CSS`] 注入文档(`document::Style { {yoface::TOKENS_CSS} }`
-//! 或 `include_str!` 内联),或提供等价的同名令牌覆盖。
+//! `#[css_module]` styles are collected by manganis at compile time and
+//! injected when the component first renders. `tokens.css` does not go through
+//! css_module (it defines global `:root` variables), so downstream must inject
+//! [`TOKENS_CSS`] into the document itself
+//! (`document::Style { {yoface::TOKENS_CSS} }`, or inline it via
+//! `include_str!`), or provide an equivalent set of same-named token
+//! overrides.
 
 pub use dioxus_icons;
 pub use dioxus_primitives;
@@ -23,7 +31,8 @@ pub use dioxus_primitives;
 pub mod ui;
 pub mod utils;
 
-/// yoface 默认设计令牌(shadcn 命名)。下游可直接注入,或用同名令牌覆盖。
+/// yoface's default design tokens (shadcn naming). Downstream can inject them
+/// as-is, or override them with same-named tokens.
 ///
 /// ```ignore
 /// use dioxus::prelude::*;

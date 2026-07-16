@@ -1,5 +1,6 @@
-/* Ergonomic modal:open:bool + 回调驱动的全屏遮罩弹窗。
- * 颜色/半径/阴影一律取 tokens.css 设计令牌,不写死。 */
+/* Ergonomic modal: a full-screen overlay dialog driven by open:bool +
+ * callbacks. Colors/radii/shadows all come from the tokens.css design tokens
+ * and are never hardcoded. */
 
 .dx-modal-overlay {
   position: fixed;
@@ -47,7 +48,7 @@
   gap: 0.5rem;
 }
 
-/* ConfirmDialog 专用:稍宽,头部纵向排列。 */
+/* ConfirmDialog only: slightly wider, with the header laid out vertically. */
 .dx-confirm-panel {
   max-width: 32rem;
 }

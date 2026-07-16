@@ -57,9 +57,11 @@ pub fn Input(
     }
 }
 
-/// 带搜索图标的搜索输入框。图标用 `dioxus_icons::lucide::Search`,定位在
-/// 输入框左侧,文本左内边距留出图标空间。`value` 受控,`oninput` 上抛
-/// 输入事件。`placeholder` / `aria_label` 可选。
+/// A search input with a search icon. The icon is
+/// `dioxus_icons::lucide::Search`, positioned at the left of the input, with
+/// the text's left padding leaving room for it. `value` is controlled, and
+/// `oninput` bubbles the input event up. `placeholder` / `aria_label` are
+/// optional.
 #[component]
 pub fn SearchInput(
     #[props(default)] placeholder: String,

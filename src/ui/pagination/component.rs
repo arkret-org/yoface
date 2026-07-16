@@ -5,15 +5,17 @@ use crate::ui::button::{Button, ButtonSize, ButtonVariant};
 #[css_module("/src/ui/pagination/style.css")]
 struct Styles;
 
-/// 游标式 上一页 / 下一页 控件。`depth` 是调用方维护的游标栈深度
-/// (1 == 第一页),回退只弹栈、不重新请求。
+/// The cursor-style previous / next page control. `depth` is the depth of the
+/// cursor stack maintained by the caller (1 == the first page); going back
+/// only pops the stack rather than re-issuing a request.
 ///
-/// 文案默认英文,可经 `prev_label` / `next_label` 覆盖(便于下游本地化)。
+/// The copy defaults to English and can be overridden via `prev_label` /
+/// `next_label` (to ease downstream localization).
 #[component]
 pub fn CursorPagination(
-    /// 游标栈深度(1-indexed)。
+    /// The cursor stack depth (1-indexed).
     depth: usize,
-    /// 当前页是否还有 `next_cursor`。
+    /// Whether the current page still has a `next_cursor`.
     has_next: bool,
     on_prev: EventHandler<()>,
     on_next: EventHandler<()>,
@@ -43,7 +45,7 @@ pub fn CursorPagination(
     }
 }
 
-/// 经典 页码 / 总数 分页。
+/// The classic page-number / total pagination.
 #[component]
 pub fn Pagination(
     page: u64,

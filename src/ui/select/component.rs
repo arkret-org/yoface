@@ -107,10 +107,12 @@ pub fn SelectOption<T: Clone + PartialEq + std::fmt::Display + 'static>(
     let base = attributes!(div {
         class: Styles::dx_select_option
     });
-    // e2e 测试钩子:dxc Select 渲染自定义弹层(`role="option"` 的 div,而非原生
-    // `<option>`),Playwright 的 `locator.selectOption()` 只对原生 `<select>` 有效。
-    // 把底层 value 暴露为 `data-value`,供 cotest 的 `selectDxcOption()` helper 按
-    // value 定位并点击。值与原 `selectOption(value)` 传入的字符串一致。
+    // An e2e test hook: the dxc Select renders a custom popup layer (divs with
+    // `role="option"`, not native `<option>`s), and Playwright's
+    // `locator.selectOption()` only works on a native `<select>`. Expose the
+    // underlying value as `data-value` so cotest's `selectDxcOption()` helper
+    // can locate and click by value. The value is identical to the string that
+    // was passed to the original `selectOption(value)`.
     let value_attr = attributes!(div {
         "data-value": props.value.cloned().to_string()
     });

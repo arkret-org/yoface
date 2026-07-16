@@ -4,9 +4,10 @@ use dioxus_icons::lucide;
 #[css_module("/src/ui/empty_state/style.css")]
 struct Styles;
 
-/// 把常用的 lucide kebab-case 图标名映射为对应图标 `Element`。
-/// 覆盖 sodmin EmptyState 调用点用到的全部名字;未识别的名字回退到 `Inbox`。
-/// 同时接受 lucide 官方新旧别名(如 `alert-triangle` / `triangle-alert`)。
+/// Maps the common lucide kebab-case icon names to the corresponding icon
+/// `Element`. Covers every name used by sodmin's EmptyState call sites;
+/// unrecognized names fall back to `Inbox`. Also accepts both lucide's old and
+/// new official aliases (e.g. `alert-triangle` / `triangle-alert`).
 fn lucide_icon_by_name(name: &str) -> Element {
     let sz = "2rem";
     match name {
@@ -26,19 +27,25 @@ fn lucide_icon_by_name(name: &str) -> Element {
     }
 }
 
-/// 空列表 / 无数据占位:可选图标 + 标题 + 描述 + 可选动作链接。
+/// Empty-list / no-data placeholder: optional icon + title + description +
+/// optional action link.
 ///
-/// 解耦说明:sodmin 原实现用本地 `icons::Icon { name }` 字符串图标表
-/// 与 router `Link`。yoface 改为:
-///   * `icon` 是可选 `Element`——下游传 `yoface::dioxus_icons` 的任意图标
-///     组件即可(`icon: rsx!{ Inbox { } }`),不再维护字符串图标注册表;
-///   * 动作用普通 `<a href>`,不绑定具体路由类型。
+/// Decoupling note: sodmin's original implementation used a local
+/// `icons::Icon { name }` string icon table and the router `Link`. yoface
+/// changes this to:
+///   * `icon` is an optional `Element` —— downstream just passes any icon
+///     component from `yoface::dioxus_icons` (`icon: rsx!{ Inbox { } }`); no
+///     string icon registry is maintained anymore;
+///   * the action uses a plain `<a href>`, not bound to any concrete route
+///     type.
 ///
-/// 图标二选一(便利):
-///   * `icon: Option<Element>`——传 `yoface::dioxus_icons` 的任意图标组件;
-///   * `icon_name: Option<String>`——传 lucide kebab-case 名字(如 `"users"`),
-///     由 [`lucide_icon_by_name`] 映射到内置常用图标,便于以「字符串图标名」
-///     调用的下游(如 sodmin)零改造迁移。两者都给时 `icon` 优先。
+/// Two ways to give the icon (for convenience):
+///   * `icon: Option<Element>` —— pass any icon component from
+///     `yoface::dioxus_icons`;
+///   * `icon_name: Option<String>` —— pass a lucide kebab-case name (e.g.
+///     `"users"`), which [`lucide_icon_by_name`] maps to a built-in common
+///     icon, letting downstream that calls with a "string icon name" (such as
+///     sodmin) migrate with zero changes. When both are given, `icon` wins.
 #[component]
 pub fn EmptyState(
     title: String,

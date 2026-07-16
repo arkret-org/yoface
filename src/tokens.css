@@ -1,22 +1,26 @@
 /* =========================================================================
- * yoface 设计令牌(tokens.css)— 单一颜色真相源
+ * yoface design tokens (tokens.css) — the single source of truth for color
  *
- * 约定:
- *   1. 组件 CSS 只引用变量,不写死任何颜色 / 半径 / 阴影。
- *   2. 第一层是 shadcn 命名的语义令牌(`--primary` / `--background` …),
- *      这是下游覆盖换肤的入口。
- *   3. 第二层是为兼容 dioxus-components 封装而保留的别名令牌
- *      (`--primary-color-N` / `--secondary-color-N` / `--*-error-color` /
- *      `--focused-border-color`),它们一律「指向」第一层语义令牌,
- *      不再独立持有色值。yoface 自带组件从 inkson 原样搬迁,仍引用这批
- *      别名,因此别名层是迁移的必要桥接,而非新增颜色源。
+ * Conventions:
+ *   1. Component CSS only references variables; it never hardcodes any
+ *      color / radius / shadow.
+ *   2. The first layer is the shadcn-named semantic tokens (`--primary` /
+ *      `--background` …). This is the entry point for downstream re-skinning.
+ *   3. The second layer is the alias tokens kept for compatibility with the
+ *      dioxus-components wrappers (`--primary-color-N` / `--secondary-color-N`
+ *      / `--*-error-color` / `--focused-border-color`). They all "point at" the
+ *      first-layer semantic tokens and no longer hold color values of their
+ *      own. yoface's bundled components were moved over from inkson as-is and
+ *      still reference these aliases, so the alias layer is a bridge required
+ *      by the migration, not an additional source of color.
  *
- * 明 / 暗:沿用 dioxus-components 的 `--light` / `--dark` 双值开关 hack。
- *   `var(--dark, A) var(--light, B)` 在暗色解析为 A、浅色解析为 B。
- *   下游可只覆盖 `:root` 下的语义令牌而无需理解该 hack。
+ * Light / dark: follows dioxus-components' `--light` / `--dark` two-value
+ *   switch hack. `var(--dark, A) var(--light, B)` resolves to A in dark and to
+ *   B in light. Downstream can override just the semantic tokens under `:root`
+ *   without having to understand the hack.
  * ========================================================================= */
 
-/* --- 明 / 暗开关:决定 var(--dark, …) var(--light, …) 走哪条分支 --- */
+/* --- Light / dark switch: decides which branch var(--dark, …) var(--light, …) takes --- */
 :root,
 [data-theme="light"] {
   --dark: ;
@@ -36,11 +40,11 @@
 }
 
 /* =========================================================================
- * 第一层:shadcn 语义令牌(下游覆盖入口)
- * 取值参照 inkson src/styles/design.css 的调色板。
+ * Layer one: shadcn semantic tokens (the downstream override entry point)
+ * Values follow the palette in inkson src/styles/design.css.
  * ========================================================================= */
 :root {
-  /* 表面与文本 */
+  /* Surfaces and text */
   --background:            var(--dark, #0d1411) var(--light, #f3f6f2);
   --foreground:            var(--dark, #e7efe9) var(--light, #19211c);
   --card:                  var(--dark, #16201c) var(--light, #ffffff);
@@ -48,45 +52,45 @@
   --popover:               var(--dark, #16201c) var(--light, #ffffff);
   --popover-foreground:    var(--dark, #e7efe9) var(--light, #19211c);
 
-  /* 主色(品牌强调,用于 CTA / 选中态) */
+  /* Primary color (brand emphasis, used for CTA / selected states) */
   --primary:               var(--dark, #72b58f) var(--light, #1f6b4f);
   --primary-strong:        var(--dark, #91caaa) var(--light, #195540);
   --primary-2:             var(--dark, #4f9d76) var(--light, #3b8a67);
   --primary-foreground:    var(--dark, #0d1411) var(--light, #ffffff);
 
-  /* 次色 / 柔和填充 */
+  /* Secondary color / soft fills */
   --secondary:             var(--dark, #1b2721) var(--light, #f4f7f4);
   --secondary-foreground:  var(--dark, #e7efe9) var(--light, #19211c);
 
-  /* 弱化文本 / 占位 / 禁用底 */
+  /* Muted text / placeholders / disabled backgrounds */
   --muted:                 var(--dark, #223129) var(--light, #ebf0eb);
   --muted-foreground:      var(--dark, #a5b5aa) var(--light, #57655b);
 
-  /* 强调底(hover 高亮等) */
+  /* Accent backgrounds (hover highlights and similar) */
   --accent:                var(--dark, #1b2721) var(--light, #f4f7f4);
   --accent-foreground:     var(--dark, #e7efe9) var(--light, #19211c);
 
-  /* 危险 / 销毁 */
+  /* Danger / destructive */
   --destructive:           var(--dark, #f87171) var(--light, #b91c1c);
   --destructive-foreground:var(--dark, #0d1411) var(--light, #ffffff);
   --destructive-soft:      var(--dark, #311515) var(--light, #fde2e2);
 
-  /* 成功 */
+  /* Success */
   --success:               var(--dark, #5fc48d) var(--light, #21784d);
   --success-foreground:    var(--dark, #0d1411) var(--light, #ffffff);
 
-  /* 边框 / 输入框边 / 焦点环 */
+  /* Borders / input borders / focus ring */
   --border:                var(--dark, #26352d) var(--light, #dbe4dc);
   --border-strong:         var(--dark, #33463b) var(--light, #c4d1c6);
   --input:                 var(--dark, #26352d) var(--light, #dbe4dc);
   --ring:                  var(--dark, #72b58f) var(--light, #1f6b4f);
 
-  /* 圆角 */
+  /* Corner radii */
   --radius:                10px;
   --radius-sm:             6px;
   --radius-lg:             14px;
 
-  /* 阴影 */
+  /* Shadows */
   --shadow-sm:  var(--dark, 0 1px 2px rgba(0,0,0,0.45))
                 var(--light, 0 1px 2px rgba(20,22,30,0.06));
   --shadow-md:  var(--dark, 0 4px 14px rgba(0,0,0,0.5))
@@ -96,11 +100,12 @@
 }
 
 /* =========================================================================
- * 第二层:dioxus-components 封装兼容别名
- * 全部指向第一层语义令牌,不持有独立色值 —— 改主题只需动第一层。
+ * Layer two: compatibility aliases for the dioxus-components wrappers
+ * All of them point at the first-layer semantic tokens and hold no color
+ * values of their own —— changing the theme only requires touching layer one.
  * ========================================================================= */
 :root {
-  /* 中性表面阶梯(primary-color-N):由浅(背景)到深(强边框)。 */
+  /* Neutral surface ramp (primary-color-N): light (background) to dark (strong border). */
   --primary-color:    var(--background);
   --primary-color-1:  var(--background);
   --primary-color-2:  var(--card);
@@ -110,7 +115,7 @@
   --primary-color-6:  var(--border);
   --primary-color-7:  var(--border-strong);
 
-  /* 文本阶梯(secondary-color-N):由强(主文本/主色)到弱(占位)。 */
+  /* Text ramp (secondary-color-N): strong (body text / primary) to weak (placeholder). */
   --secondary-color:   var(--foreground);
   --secondary-color-1: var(--foreground);
   --secondary-color-2: var(--primary);
@@ -118,12 +123,13 @@
   --secondary-color-4: var(--foreground);
   --secondary-color-5: var(--muted-foreground);
 
-  /* 焦点 / 错误 / 对比 */
+  /* Focus / error / contrast */
   --focused-border-color: var(--ring);
   --primary-error-color:  var(--destructive);
   --contrast-error-color: var(--destructive-foreground);
 
-  /* button.css 的 CTA 渐变还引用了以下 inkson 自有别名,统一桥接到语义令牌。 */
+  /* button.css's CTA gradient also references the inkson-specific aliases
+     below; bridge them to the semantic tokens as well. */
   --accent-2:        var(--primary-2);
   --accent-strong:   var(--primary-strong);
   --text-on-accent:  var(--primary-foreground);
